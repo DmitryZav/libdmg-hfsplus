@@ -126,6 +126,8 @@ int buildDmg(AbstractFile* abstractIn, AbstractFile* abstractOut) {
 	nsiz = NULL;
     
 	memset(&dataForkToken, 0, sizeof(ChecksumToken));
+	memset(koly.fUDIFMasterChecksum.data, 0, sizeof(koly.fUDIFMasterChecksum.data));
+	memset(koly.fUDIFDataForkChecksum.data, 0, sizeof(koly.fUDIFDataForkChecksum.data));
 	
 	printf("Creating and writing DDM and partition map...\n"); fflush(stdout);
 	
@@ -230,6 +232,7 @@ int buildDmg(AbstractFile* abstractIn, AbstractFile* abstractOut) {
 	koly.fUDIFDataForkChecksum.type = CHECKSUM_UDIF_CRC32;
 	koly.fUDIFDataForkChecksum.bitness = checksumBitness(CHECKSUM_UDIF_CRC32);
 	koly.fUDIFDataForkChecksum.data[0] = dataForkChecksum;
+
 	koly.fUDIFXMLOffset = plistOffset;
 	koly.fUDIFXMLLength = plistSize;
 	memset(&(koly.reserved1), 0, 0x78);
@@ -237,6 +240,7 @@ int buildDmg(AbstractFile* abstractIn, AbstractFile* abstractOut) {
 	koly.fUDIFMasterChecksum.type = CHECKSUM_UDIF_CRC32;
 	koly.fUDIFMasterChecksum.bitness = checksumBitness(CHECKSUM_UDIF_CRC32);
 	koly.fUDIFMasterChecksum.data[0] = calculateMasterChecksum(resources);
+
 	printf("Master checksum: %x\n", koly.fUDIFMasterChecksum.data[0]); fflush(stdout); 
 	
 	koly.fUDIFImageVariant = kUDIFDeviceImageType;
@@ -298,6 +302,8 @@ int convertToDMG(AbstractFile* abstractIn, AbstractFile* abstractOut) {
 	nsiz = NULL;
 	myNSiz = NULL;
 	memset(&dataForkToken, 0, sizeof(ChecksumToken));
+	memset(koly.fUDIFMasterChecksum.data, 0, sizeof(koly.fUDIFMasterChecksum.data));
+	memset(koly.fUDIFDataForkChecksum.data, 0, sizeof(koly.fUDIFDataForkChecksum.data));
 	
 	partitions = (Partition*) malloc(SECTOR_SIZE);
 	
@@ -448,6 +454,7 @@ int convertToDMG(AbstractFile* abstractIn, AbstractFile* abstractOut) {
 	koly.fUDIFDataForkChecksum.type = CHECKSUM_UDIF_CRC32;
 	koly.fUDIFDataForkChecksum.bitness = checksumBitness(CHECKSUM_UDIF_CRC32);
 	koly.fUDIFDataForkChecksum.data[0] = dataForkChecksum;
+
 	koly.fUDIFXMLOffset = plistOffset;
 	koly.fUDIFXMLLength = plistSize;
 	memset(&(koly.reserved1), 0, 0x78);
@@ -455,6 +462,7 @@ int convertToDMG(AbstractFile* abstractIn, AbstractFile* abstractOut) {
 	koly.fUDIFMasterChecksum.type = CHECKSUM_UDIF_CRC32;
 	koly.fUDIFMasterChecksum.bitness = checksumBitness(CHECKSUM_UDIF_CRC32);
 	koly.fUDIFMasterChecksum.data[0] = calculateMasterChecksum(resources);
+
 	printf("Master checksum: %x\n", koly.fUDIFMasterChecksum.data[0]); fflush(stdout); 
 	
 	koly.fUDIFSectorCount = numSectors;
