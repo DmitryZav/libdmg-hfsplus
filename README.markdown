@@ -52,6 +52,9 @@ does not have dependencies on the dmg directory.
 
 The makefile in the root folder will make all utilities.
 
+### create the makefile
+	cmake CMakeLists.txt -DCMAKE_INSTALL_PREFIX=/usr/bin
+
 ### HFS+
 
 	cd hfs
