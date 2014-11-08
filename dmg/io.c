@@ -150,7 +150,6 @@ void extractBLKX(AbstractFile* in, AbstractFile* out, BLKXTable* blkx) {
 	off_t initialOffset;
 	int i;
 	int ret;
-        int bufferRead;
 	
 	z_stream strm;
 	
